@@ -32,7 +32,7 @@ function contentAnimation() {
 }
 
 function loadScripts(cssLink, jsLink) {
-  const head = document.getElementsByTagName('HEAD')[0];
+  const head = document.getElementsByTagName('HEAD')[1];
   const body = document.getElementsByTagName('BODY')[0];
   const link = document.createElement('link');
   const script = document.createElement('script');
