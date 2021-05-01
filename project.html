@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./img/sticker.png" type="image/png">
+
     <title>Projects | Portfolio</title>
 
     <!-- stylesheet -->
@@ -17,12 +19,13 @@
 </head>
     <!-- custom cursor and page transiton -->
 <body data-barba="wrapper">
-    <div class="load-container">
-          <div class="loading-screen"></div>
-      </div>
-    <div class="cursor"></div>
-    <div class="content"></div>
-<main data-barba="container" data-barba-namespace="home-section">
+        <div class="load-container">
+              <div class="loading-screen"></div>
+          </div>
+        <div class="cursor"></div>
+        <div id="progressBar"></div>
+        <div id="progressBarContainer"></div>
+<main data-barba="container" data-barba-namespace="home">
         <!-- menu -->
         <nav>
             <span id="brand">
@@ -30,16 +33,16 @@
             </span>
 
             <ul id="menu">
-                  <li><a class="animate-this" href="index.html">головна<span>.</span></a></li>
-                  <li><a class="animate-this" href="project.html">проекти<span>.</span></a></li>
-                  <li><a class="animate-this" href="about.html">про мене<span>.</span></a></li>
-                  <li><a class="animate-this" href="contact.html">контакти<span>.</span></a></li>
+                  <li><a class="transition-element" href="index.html">home<span>.</span></a></li>
+                  <li><a class="transition-element" href="project.html">project<span>.</span></a></li>
+                  <li><a class="transition-element" href="about.html">about<span>.</span></a></li>
+                  <li><a class="transition-element" href="contact.html">contact<span>.</span></a></li>
             </ul>
         
         <!-- horizontal scroll items -->
         <div class="container">
             <div class="container__item container__item-header">
-                <h1>Тут ви можете<br>  усі мої проекти.</h1>
+                <h1>Here you can<br> see all my works.</h1>
             </div>
 
             <div class="container__item container__item-1">
@@ -71,6 +74,10 @@
 
     </div>
 </main>
+<div class="transition-container">
+    <span id="from-top"></span>
+    <span id="from-bottom"></span>
+</div>
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>

@@ -1,84 +1,106 @@
-function delay(n) {
-  n = n || 2000;
-  return new Promise((done) => {
-    setTimeout(() => {
-      done();
-    }, n);
-  });
-}
+console.clear();
 
 function pageTransition() {
-  var tl = gsap.timeline();
-  tl.to(".loading-screen", {
-    duration: 1.2,
-    width: "100%",
-    left: "0%",
-    ease: "Expo.easeInOut",
-  });
+	let tl = gsap.timeline({ ease: Expo.easeInOut });
 
-  tl.to(".loading-screen", {
-    duration: 1,
-    width: "100%",
-    left: "100%",
-    ease: "Expo.easeInOut",
-    delay: 0.3,
-  });
-  tl.set(".loading-screen", { left: "-100%" });
+	gsap.to("img", {
+		duration: 0.4,
+		opacity: 0,
+	});
+
+	tl.set(".transition-container span", { pointerEvents: "all" })
+		.to("span#from-top", {
+			duration: 0.4,
+			transformOrigin: "top center",
+			scaleY: 1,
+			top: "0%",
+			delay: 0.2,
+		})
+		.to(
+			"span#from-bottom",
+			{
+				duration: 0.4,
+				transformOrigin: "bottom center",
+				scaleY: 1,
+				delay: 0.2,
+			},
+			"-=0.6"
+		);
+
+	tl.to("span#from-top", {
+		duration: 0.4,
+		transformOrigin: "bottom center",
+		scaleY: 0,
+		delay: 0.6,
+	})
+		.to(
+			"span#from-bottom",
+			{
+				duration: 0.4,
+				transformOrigin: "top center",
+				scaleY: 0,
+				delay: 0.6,
+			},
+			"-=1"
+		)
+
+		.set(".transition-container span", { pointerEvents: "none" });
 }
 
-function contentAnimation() {
-  var tl = gsap.timeline();
-  tl.from(".animate-this", { duration: 1, y: 30, opacity: 0, stagger: 0.4, delay: 0.2 });
+function fadeInContent() {
+	let tl = gsap.timeline({ ease: Expo.easeInOut });
+	tl.set(".transition-element", {
+		top: "5%",
+		opacity: 0,
+	})
+		.set("img", { duration: 0.4, opacity: 0 })
+
+		.to(".transition-element", {
+			duration: 0.4,
+			top: "0%",
+			opacity: 1,
+			stagger: 0.1,
+		})
+		.to("img", { duration: 0.4, opacity: 0.45 }, "-=0.4");
 }
 
-function loadScripts(cssLink, jsLink) {
-  const head = document.getElementsByTagName('HEAD')[1];
-  const body = document.getElementsByTagName('BODY')[0];
-  const link = document.createElement('link');
-  const script = document.createElement('script');
-
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = cssLink;
-
-  script.src = jsLink;
-
-  head.appendChild(link);
-  body.appendChild(script);
+function fadeOutContent() {
+	let tl = gsap.timeline({ ease: Expo.easeInOut });
+	tl.to(".transition-element", {
+		duration: 0.4,
+		top: "5%",
+		opacity: 0,
+		stagger: -0.1,
+	}).to("img", { duration: 0.4, opacity: 0 }, "-=0.4");
 }
 
-$(function () {
-  barba.init({
-    sync: true,
+barba.init({
+	sync: true,
 
-    transitions: [
-      {
-        async leave(data) {
-          const done = this.async();
-          // console.log(data)
-          pageTransition();
-          await delay(1000);
-          done();
-        },
-
-        async enter(data) {
-          contentAnimation();
-        },
-
-        async once(data) {
-          contentAnimation();
-        },
-
-        async afterEnter(data) {
-          if (data.next.url.path === '/index.html') {
-            loadScripts('./styles/style.css', './js/project-scroll.js')
-          }
-
-          if (data.next.url.path === '/project.html') {
-            loadScripts('./styles/project.css', './js/project-scroll.js')
-          }
-        }
-      },
-    ],
-  });
+	transitions: [
+		{
+			async leave() {
+				const done = this.async();
+				pageTransition();
+				fadeOutContent();
+				await delay(1200);
+				done();
+			},
+			async enter() {
+				fadeInContent();
+			},
+			async once() {
+				fadeInContent();
+			},
+		},
+	],
 });
+
+function delay(n) {
+	n = n || 2000;
+	return new Promise((done) => {
+		setTimeout(() => {
+			done();
+		}, n);
+	});
+}
